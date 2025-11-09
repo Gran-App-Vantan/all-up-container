@@ -12,11 +12,19 @@ FRONTEND_SERVICES := $(addsuffix -frontend, $(SERVICES))
 # デフォルトターゲット
 .PHONY: help
 help: ## ヘルプを表示
-	@echo "使用可能なコマンド:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo "個別コマンド"
-	@echo "それぞれの個別コマンドを使用する場合は、make <サービス名>-<コマンド名>のように指定してください"
-	@echo "サービス名は[vanx,roulette,slot,poker]で指定してください"
+	@echo "\033[1;34m=== 基本コマンド ===\033[0m"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {if ($$1 !~ /-/ && $$1 != "help") printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	
+	@echo "\n\033[1;34m=== データベースコマンド ===\033[0m"
+	@echo "  \033[36mmigration\033[0m           全バックエンドのマイグレーションを実行"
+	@echo "  \033[36m<サービス名>-migration\033[0m 特定サービスのマイグレーションを実行"
+	
+	@echo "\n\033[1;34m=== 個別サービスコマンド ===\033[0m"
+	@echo "  使用例: make <サービス名>-<コマンド名>"
+	@echo "  サービス名: vanx, roulette, slot, poker"
+	@echo "  コマンド: up, down, install, logs, migration, bash-be, bash-fe"
+	
+	@echo "\n詳細なヘルプは各コマンドに 'make help' を付けて実行してください"
 
 # 全サービスの起動
 .PHONY: up
@@ -67,9 +75,9 @@ frontend-install: ## 全フロントエンドでnpm installを実行
 .PHONY: install
 install: backend-install frontend-install ## 全依存関係をインストール
 
-# 全依存関係のインストール
+
 .PHONY: migration
-migration: 
+migration: ## 全backendのマイグレーション
 	@echo "Running fresh migrations for all services..."
 	@echo "vanx-backend:"
 	@$(DC) run --rm vanx-backend bash -c "echo 'yes' | php artisan migrate:fresh --force"
