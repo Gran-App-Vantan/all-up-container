@@ -1,0 +1,77 @@
+services:
+  # Vanx
+  vanx-backend:
+    build: ./Vanx/backend
+    volumes:
+      - ./Vanx/backend:/workdir
+      - ./Vanx/backend/laravel_app/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    ports:
+      - "8777:8000"
+
+  vanx-frontend:
+    build: ./Vanx/frontend
+    volumes:
+      - ./Vanx/frontend/vanx-app:/vanx-app
+      - /vanx-app/node_modules
+    ports:
+      - "3777:3000"
+
+  # Roulette
+  roulette-frontend:
+    build: ./Roulette/frontend
+    volumes:
+      - ./Roulette/frontend:/container-frontend
+      - /container-frontend/node_modules
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./Roulette/.env
+
+  roulette-backend:
+    build: ./Roulette/backend
+    volumes:
+      - ./Roulette/backend:/workdir
+    ports:
+      - "8001:8000"
+
+  # Slot
+  slot-backend:
+    build: ./Slot/backend
+    volumes:
+      - ./Slot/backend:/workdir
+    ports:
+      - "8002:8000"
+
+  slot-frontend:
+    build: ./Slot/frontend
+    volumes:
+      - ./Slot/frontend:/workdir
+      - /workdir/node_modules
+    ports:
+      - "3002:3000"
+
+  # Indian Poker
+  poker-backend:
+    build: ./Indian-Poker/backend
+    volumes:
+      - ./Indian-Poker/backend:/workdir
+    ports:
+      - "8003:8000"
+
+  poker-frontend:
+    build: ./Indian-Poker/frontend
+    volumes:
+      - ./Indian-Poker/frontend:/workdir
+      - /workdir/node_modules
+    ports:
+      - "3003:3000"
+  
+  db:
+    image: mysql:8.3
+    volumes:
+      - ./db/mysql_data:/var/lib/mysql
+      - ./db/initdb:/docker-entrypoint-initdb.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - 3377:3306
