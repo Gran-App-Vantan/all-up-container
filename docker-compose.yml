@@ -75,3 +75,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     ports:
       - 3377:3306
+    env_file:
+      - ./db/.env
+    
