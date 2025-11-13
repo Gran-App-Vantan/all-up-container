@@ -128,7 +128,7 @@ clone: ## 全サービスをリポジトリからクローンして
 	@git clone https://github.com/Gran-App-Vantan/vanx-backend.git ./Vanx/backend
 	@git clone https://github.com/Gran-App-Vantan/vanx-frontend.git ./Vanx/frontend
 	@git clone https://github.com/Gran-App-Vantan/Indian-Poker.git ./Indian-Poker
-	@git clone https://github.com/tacoskiy/vantan-cacino.git ./Roulette
+	@git clone https://github.com/Gran-App-Vantan/Roulette.git ./Roulette
 	@git clone https://github.com/Gran-App-Vantan/Slot.git ./Slot
 	@echo "Copying .env.example to .env for each service..."
 	# Laravelアプリ用
