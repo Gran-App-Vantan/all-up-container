@@ -5,7 +5,7 @@ PROJECT_NAME := granappvantan
 DC := docker-compose -p $(PROJECT_NAME)
 
 # 各サービスの定義
-SERVICES := roulette vanx slot poker db
+SERVICES := roulette vanx slot poker
 BACKEND_SERVICES := $(addsuffix -backend, $(SERVICES))
 FRONTEND_SERVICES := $(addsuffix -frontend, $(SERVICES))
 
@@ -127,7 +127,7 @@ clone: ## 全サービスをリポジトリからクローンして
 	@echo "Cloning all services..."
 	@git clone https://github.com/Gran-App-Vantan/vanx-backend.git ./Vanx/backend
 	@git clone https://github.com/Gran-App-Vantan/vanx-frontend.git ./Vanx/frontend
-	@git clone https://github.com/Gran-App-Vantan/Indian-Poker.git ./Indian-Poker
+	@git clone https://github.com/Gran-App-Vantan/Indian-Poker.git ./Poker
 	@git clone https://github.com/Gran-App-Vantan/Roulette.git ./Roulette
 	@git clone https://github.com/Gran-App-Vantan/Slot.git ./Slot
 	@echo "Copying .env.example to .env for each service..."
@@ -177,7 +177,7 @@ clone: ## 全サービスをリポジトリからクローンして
 env: ## .envファイルを各Laravelアプリにコピー
 	@for dir in \
 		Vanx/backend/laravel_app \
-		Indian-Poker/backend/laravel_poker \
+		Poker/backend/laravel_poker \
 		Roulette/backend/laravel_app \
 		Slot/backend/slot_app; do \
 		if [ ! -f "$$dir/.env" ]; then \
@@ -196,7 +196,7 @@ env: ## .envファイルを各Laravelアプリにコピー
 
 .PHONY: delete
 delete: ## 一旦デリート
-	@rm -rf ./Vanx ./Indian-Poker ./Roulette ./Slot
+	@rm -rf ./Vanx ./Poker ./Roulette ./Slot
 	@echo "Complete!"
 
 
